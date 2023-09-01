@@ -1,43 +1,27 @@
-require 'redis'
-require 'sqlite3'
+require "redis"
+require "logger"
+require_relative "src/table/ProducerMessageTable"
+require_relative "src/service/ProducerDatabaseService"
+require_relative 'src/Producer'
 
-QUEUE_NAME = 'message_queue'
+logger = Logger.new("log/producer.log")
+producerMessageTable = ProducerMessageTable.new(logger)
+databaseService = ProducerDatabaseService.new(producerMessageTable)
+broker = Redis.new
+broker.config("SET", "appendonly", "yes")
 
-redis = Redis.new
-
-def tableCreation(dbPool)
-    sqlFile = 'sql/producer_messages_table.sql'
-
-    sqlScript = File.read(sqlFile)
-
-    dbPool.execute(sqlScript)
-end
-
-def insertMessage(dbPool, sendingTime, message)
-    puts "#{sendingTime}: #{message}"
-    dbPool.execute("INSERT INTO messages (sending_time, content, is_sent) VALUES ('#{sendingTime}', '#{message}', FALSE);")
-end
-
-db = SQLite3::Database.new "producer.db"
-tableCreation(db)
-
+producer = Producer.new(producerMessageTable, broker, logger)
 
 loop do
-  puts "Enter a message (or 'exit' to quit):"
-  message = gets.chomp
-  break if message == 'exit'
-
-  sendingTime = Time.now.to_s
-
-  insertMessage(db, sendingTime, message)
-
-  key = sendingTime + message
-
-  result = redis.set(key.hash, message)
-  
-  if result == "OK" then
-    puts "Message sent to the broker"
-  end
+    begin
+        dbPool = databaseService.databaseConnection
+        producer.manageUnsentMessages(dbPool)
+        producer.manageNewMessageInsertion(dbPool)
+    rescue => e
+        logger.error "Error during program execution: #{e.message}"
+    ensure
+        dbPool.close
+    end
 end
 
-redis.quit
+broker.quit

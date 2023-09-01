@@ -1,12 +1,27 @@
-require 'redis'
+require "redis"
+require "logger"
+require_relative "src/constants"
+require_relative "src/service/ConsumerDatabaseService"
+require_relative "src/table/ConsumerMessageTable"
+require_relative "src/Consumer"
 
-QUEUE_NAME = 'message_queue'
+logger = Logger.new("log/consumer.log")
+consumerMessageTable = ConsumerMessageTable.new(logger)
+databaseService = ConsumerDatabaseService.new(consumerMessageTable)
+broker = Redis.new
+broker.config("SET", "appendonly", "yes")
 
-redis = Redis.new
+consumer = Consumer.new(consumerMessageTable, broker, logger)
 
 loop do
-  message = redis.blpop(QUEUE_NAME)[1]
-  puts "Received message: #{message}"
+    begin
+        dbPool = databaseService.databaseConnection
+        consumer.manageMessageArrival(dbPool)
+    rescue => e
+        logger.error "Error during program execution: #{e.message}"
+    ensure
+        dbPool.close
+    end
 end
 
-redis.quit
+broker.quit
