@@ -2,6 +2,7 @@ class ProducerMessageTable
     def initialize(logger)
         @logger = logger
     end
+
     def createTableIfDoesntExist(dbPool)
         begin
             dbPool.execute <<-SQL

@@ -1,5 +1,4 @@
 class BrokerService
-
     def initialize(broker, logger)
         @broker = broker
         @logger = logger
