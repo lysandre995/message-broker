@@ -36,11 +36,15 @@ Launch the **producer** by typing this command from the project root:
 ```bash
 ruby producer.rb
 ```
+Simply send messages by typing them in the prompt and pressing the 'Enter' key.
 
 Launch the **consumer** by typing this command from the project root:
 ```bash
 ruby consumer.rb
 ```
+The messages sent by the **producer** will be received and displayed in the terminal.
+
+All the messages stored in the **producer** and **consumer** databases can be queried using any **SQLite 3** client.
 
 ## Stop the redis service for testing purposes
 
@@ -49,7 +53,7 @@ To disable the redis service on Linux using snap (different command should be us
 sudo snap stop redis
 ```
 
-To restart the redis service on linux using snap:
+To restart the redis service on Linux using snap:
 ```bash
 sudo snap start redis
 ```
