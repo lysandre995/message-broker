@@ -1,6 +1,6 @@
-#Message Broker
+# Message Broker
 
-##How does it work?
+## How does it work?
 
 These are two Ruby programs, a **producer** which allows the user to create a message and send it to a **consumer** that receives them through a message Broker (**Redis** in this case).
 
@@ -14,9 +14,9 @@ Due to the blocking nature of the user input insertion command, any pending mess
 
 On the other hand, if the pending messages are stored in the **broker**'s queue, they will be instantly available when the **consumer** or the **broker** resumes working properly.
 
-##Usage
+## Usage
 
-###Preliminary
+### Preliminary
 
 1. Clone the repo
 2. Ensure you have **Redis** installed on your system. On Linux you can use the following (snap) command:
@@ -28,7 +28,7 @@ On the other hand, if the pending messages are stored in the **broker**'s queue,
    ```bash
    bundle install
    ```
-###Run
+### Run
 
 Run the **producer** and the **consumer** in two different terminals.
 
@@ -42,7 +42,7 @@ Launch the **consumer** by typing this command from the project root:
 ruby consumer.rb
 ```
 
-##Stop the redis service for testing purposes
+## Stop the redis service for testing purposes
 
 To disable the redis service on Linux using snap (different command should be used based on your installation, refer to your Redis installation documentation):
 ```bash
