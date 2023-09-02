@@ -7,6 +7,7 @@ class ConsumerMessageTable
             dbPool.execute <<-SQL
               CREATE TABLE IF NOT EXISTS messages (
                   id TEXT PRIMARY KEY NOT NULL,
+                  sending_time TEXT NOT NULL,
                   receiving_time TEXT NOT NULL,
                   content TEXT
               );
@@ -17,11 +18,11 @@ class ConsumerMessageTable
         end
     end
 
-    def insertMessage(dbPool, id, receivingTime, message)
+    def insertMessage(dbPool, id, sendingTime, receivingTime, message)
         begin
             dbPool.execute <<-SQL
-              INSERT INTO messages (id, receiving_time, content)
-                   VALUES ('#{id}', '#{receivingTime}', '#{message}');
+              INSERT INTO messages (id, sending_time, receiving_time, content)
+                   VALUES ('#{id}', '#{sendingTime}', '#{receivingTime}', '#{message}');
             SQL
             @logger.info "Message correctly loaded into the database"
             return true

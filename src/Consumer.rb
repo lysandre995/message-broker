@@ -14,9 +14,10 @@ class Consumer
         if message then
             jsonObject = JSON.parse(message)
             id = jsonObject["id"]
+            sendingTime = jsonObject["sendingTime"]
             message = jsonObject["message"]
-            @logger.info "Received: id => #{id}, message => #{message}"
-            if insertMessageIntoDb(dbPool, id, receivingTime, message) then
+            @logger.info "Received: id => #{id}, sendingTime => #{sendingTime}, message => #{message}"
+            if insertMessageIntoDb(dbPool, id, sendingTime, receivingTime, message) then
                 puts "Received message: #{message}"
             end
         end
@@ -30,7 +31,7 @@ class Consumer
         end
     end
 
-    def insertMessageIntoDb(dbPool, id, receivingTime, message)
-        @messagesTable.insertMessage(dbPool, id, receivingTime, message)
+    def insertMessageIntoDb(dbPool, id, sendingTime, receivingTime, message)
+        @messagesTable.insertMessage(dbPool, id, sendingTime, receivingTime, message)
     end
 end

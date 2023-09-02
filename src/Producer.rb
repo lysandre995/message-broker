@@ -9,8 +9,8 @@ class Producer
 
     def manageUnsentMessages(dbPool)
         getUnsentMessages(dbPool).each do |row|
-            id, _, message = row
-            sendToBrokerQueue(dbPool, id, message)
+            id, sendingTime, message = row
+            sendToBrokerQueue(dbPool, id, sendingTime, message)
         end
     end
 
@@ -18,8 +18,8 @@ class Producer
         return @messageTable.getMessagesToSend(dbPool)
     end
 
-    def sendToBrokerQueue(dbPool, id, message)
-        messageToSend = "{\"id\":\"#{id}\",\"message\":\"#{message}\"}"
+    def sendToBrokerQueue(dbPool, id, sendingTime, message)
+        messageToSend = "{\"id\":\"#{id}\", \"sendingTime\":\"#{sendingTime}\", \"message\":\"#{message}\"}"
         begin
             if @broker.rpush(QUEUE_NAME, messageToSend) == 1 then
                 @messageTable.markAsSent(dbPool, id)
@@ -30,15 +30,19 @@ class Producer
         end
     end
 
-    def manageNewMessageInsertion(dbPool)
-        puts "Enter a message (or 'exit' to quit):"
+    def manageNewMessageInsertion(dbPool, isRetry)
+        if isRetry then
+            puts "Error during message management, please retype the message (or type 'exit' to quit):"
+        else
+            puts "Enter a message (or 'exit' to quit):"
+        end
         message = gets.chomp
         return false if message == "exit"
 
         sendingTime = Time.now.to_s
         key = (sendingTime + message).hash
-        if insertNewMessageToDb(dbPool, key, sendingTime, message) then
-            sendToBrokerQueue(dbPool, key, message)
+        if !insertNewMessageToDb(dbPool, key, sendingTime, message) then
+            manageNewMessageInsertion(dbPool, true)
         end
         return true
     end

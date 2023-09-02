@@ -19,8 +19,8 @@ loop do
     begin
         dbPool = databaseService.databaseConnection
         brokerService.ensureBrokerPersistence()
+        break if !producer.manageNewMessageInsertion(dbPool, false)
         producer.manageUnsentMessages(dbPool)
-        break if !producer.manageNewMessageInsertion(dbPool)
     rescue => e
         logger.error "Error during program execution: #{e.message}"
     ensure

@@ -51,7 +51,8 @@ class ProducerMessageTable
             return dbPool.execute <<-SQL
               SELECT *
                 FROM messages
-               WHERE is_sent = FALSE;
+               WHERE is_sent = FALSE
+            ORDER BY sending_time;
             SQL
         rescue SQLite3::Exception => e
             @logger.error "Error during message fetching: #{e.message}"
