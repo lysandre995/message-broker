@@ -2,7 +2,7 @@
 
 ## How does it work?
 
-These are two Ruby programs, a **producer** which allows the user to create a message and send it to a **consumer** that receives them through a message Broker (**Redis** in this case).
+These are two Ruby programs, a **producer** which allows the user to create a message and send it to a **consumer** that receives them through a message broker (**Redis** in this case).
 
 Each program has an **SQLite 3** database where the message data and information about their delivery are stored in.
 
