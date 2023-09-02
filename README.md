@@ -12,7 +12,7 @@ The whole system should be fault-tolerant, preventing message loss in case any o
 
 Due to the blocking nature of the user input insertion command, any pending messages in the **producer** will be sent subsequently upon the user's submission of another message to be sent.
 
-On the other hand, if the pending messages are stored in the **broker**'s queue, they will be instantly available when the **consumer** resumes working properly.
+On the other hand, if the pending messages are stored in the **broker**'s queue, they will be instantly available when the **consumer** or the **broker** resumes working properly.
 
 ##Usage
 
