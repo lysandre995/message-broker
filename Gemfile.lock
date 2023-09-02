@@ -2,16 +2,31 @@ GEM
   remote: http://rubygems.org/
   specs:
     connection_pool (2.4.1)
+    debug (1.8.0)
+      irb (>= 1.5.0)
+      reline (>= 0.3.1)
+    io-console (0.6.0)
+    irb (1.8.0)
+      rdoc (~> 6.5)
+      reline (>= 0.3.6)
+    psych (5.1.0)
+      stringio
+    rdoc (6.5.0)
+      psych (>= 4.0.0)
     redis (5.0.7)
       redis-client (>= 0.9.0)
     redis-client (0.16.0)
       connection_pool
+    reline (0.3.8)
+      io-console (~> 0.5)
     sqlite3 (1.6.4-x86_64-linux)
+    stringio (3.0.8)
 
 PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  debug
   redis
   sqlite3
 

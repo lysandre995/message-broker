@@ -12,7 +12,7 @@ The entire system should be fault-tolerant, preventing the loss of the messages 
 ##Usage
 ###Preliminary
 1. Clone the repo
-2. Make sure you have **redis** installed on your system. Using linux I used the following (snap) command:
+2. Make sure you have **redis** installed on your system. Using Linux I used the following (snap) command:
     ```bash
     sudo snap install redis
     ```
@@ -25,10 +25,22 @@ The entire system should be fault-tolerant, preventing the loss of the messages 
 
 Run the producer launching this command in the project root:
 ```bash
-ruby producer_bak.rb
+ruby producer.rb
 ```
 
 Run the consumer launching this command in the project root:
 ```bash
 ruby consumer.rb
+```
+
+##Stop the redis service for testing purpose
+
+How to disable the redis service on linux using snap (different command should be used based on your installation, follow your installation documentation):
+```bash
+sudo snap stop redis
+```
+
+How to restart the redis service on linux using snap:
+```bash
+sudo snap start redis
 ```

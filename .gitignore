@@ -2,4 +2,4 @@ producer.db
 consumer.db
 .idea
 .vscode
-log/*
+/log/

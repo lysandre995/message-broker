@@ -23,7 +23,11 @@ class Consumer
     end
 
     def consumeMessageFromQueue
-        return @broker.blpop(QUEUE_NAME)[1]
+        begin
+            return @broker.blpop(QUEUE_NAME)[1]
+        rescue Redis::CannotConnectError => e
+            @logger.error "The broker is unreachable at the moment"
+        end
     end
 
     def insertMessageIntoDb(dbPool, id, receivingTime, message)
