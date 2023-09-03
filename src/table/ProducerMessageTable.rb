@@ -34,13 +34,18 @@ class ProducerMessageTable
 
     def markAsSent(dbPool, id)
         begin
-            dbPool.execute <<-SQL
-              UPDATE messages
-                 SET is_sent = TRUE
-               WHERE id = '#{id}';
-            SQL
-            @logger.info "Message marked as sent (id: #{id})"
-            return true
+            checkIdExistence = dbPool.execute("SELECT * FROM messages WHERE id = '#{id}';")
+            if !(checkIdExistence.size == 0) then
+                result = dbPool.execute <<-SQL
+                UPDATE messages
+                    SET is_sent = TRUE
+                WHERE id = '#{id}';
+                SQL
+                @logger.info "Message marked as sent (id: #{id})"
+                return true
+            else
+                raise SQLite3::Exception, "the specified id (#{id}) doesn't exist in the table messages"
+            end
         rescue SQLite3::Exception => e
             @logger.error "Error during table updating: #{e.message}"
             return false

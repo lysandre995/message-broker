@@ -6,7 +6,7 @@ class BrokerService
 
     def ensureBrokerPersistence()
         begin
-            if @broker.ping == "PONG" and !(@broker.config('GET', 'appendonly')[1] == "yes") then
+            if @broker.ping == "PONG" and !(@broker.config("GET", "appendonly")[1] == "yes") then
                 @broker.config("SET", "appendonly", "yes")
             end
         rescue Redis::CannotConnectError => e

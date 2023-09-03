@@ -36,7 +36,7 @@ class Producer
         else
             puts "Enter a message (or 'exit' to quit):"
         end
-        message = gets.chomp
+        message = getUserInput
         return false if message == "exit"
 
         sendingTime = Time.now.to_s
@@ -49,5 +49,9 @@ class Producer
 
     def insertNewMessageToDb(dbPool, key, sendingTime, message)
         return @messageTable.insertMessage(dbPool, key, sendingTime, message)
+    end
+
+    def getUserInput
+        gets.chomp
     end
 end

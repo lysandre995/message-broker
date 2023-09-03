@@ -25,10 +25,10 @@ class ConsumerMessageTable
               INSERT INTO messages (id, sending_time, receiving_time, content)
                    VALUES ('#{id}', '#{sendingTime}', '#{receivingTime}', '#{message}');
             SQL
-            @logger.info "Message correctly loaded into the database"
+            @logger.info "Message #{id} correctly inserted into messages table"
             return true
         rescue SQLite3::Exception => e
-            @logger.error "Error during insertion into database: #{e.message}"
+            @logger.error "Error during message insertion: #{e.message}"
             return false
         end
     end

@@ -1,5 +1,5 @@
 require "json"
-require_relative 'constants'
+require_relative "constants"
 
 class Consumer
     def initialize(messagesTable, broker, logger)

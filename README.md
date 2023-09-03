@@ -57,3 +57,14 @@ To restart the redis service on Linux using snap:
 ```bash
 sudo snap start redis
 ```
+
+## Run the unit test
+
+Run the unit tests of the solution typing this command from the project root:
+```bash
+bundle exec rspec
+```
+
+## Notes
+
+To test the system's reliability, manually shut down each of the three software components (**producer**, **receiver**, and **broker**) in various combinations. Then, attempt to send messages and observe the results.
