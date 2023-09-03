@@ -19,11 +19,11 @@ On the other hand, if the pending messages are stored in the **broker**'s queue,
 ### Preliminary
 
 1. Clone the repo
-2. Ensure you have **Redis** installed on your system. On Linux you can use the following (snap) command:
+2. Ensure you have **Redis** installed on your system. If not, install it by following the instructions for your OS on https://redis.io/docs/getting-started/installation/. On Linux you can use the following (snap) command:
     ```bash
     sudo snap install redis
     ```
-3. Make sure you have Ruby installed on your system (along with **gem** and **bundler**)
+3. Make sure you have Ruby installed on your system (along with **gem** and **bundler**). If not install it by following the instructions reported at https://www.ruby-lang.org/ (usually **gem** and **bundler** come preinstalled with any modern Ruby distribution).
 4. Run the following command from the project root to correctly install the dependencies:
    ```bash
    bundle install
